@@ -77,7 +77,7 @@
 
 my.packages <- c('tidyverse','textclean','data.table','rgbif','ridigbio','BIEN')
   # versions I used (in the order listed above): 2.0.0, 0.9.3, 1.14.8, 3.7.7, 0.3.6, 1.2.6
-# install.packages(my.packages) #Turn on to install current versions
+install.packages(my.packages) #Turn on to install current versions
 lapply(my.packages, require, character.only=TRUE)
     rm(my.packages)
 
@@ -87,8 +87,8 @@ lapply(my.packages, require, character.only=TRUE)
 
 # use 0-set_working_directory.R script
   # change this path based on where the script is located on your computer:
-source("/Users/emily/Documents/GitHub/conservation-gap-analysis/spatial-analysis-workflow/0-set_working_directory.R")
-
+source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis")
+setwd("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis")
 # create folder for output data
 if(!dir.exists(file.path(main_dir,occ_dir,standardized_occ,"input_datasets")))
   dir.create(file.path(main_dir,occ_dir,standardized_occ,"input_datasets"), 

@@ -25,15 +25,15 @@
 Sys.info()[4]
 
 
-## For Emily Bruns:
-if (Sys.info()[4] == "Africa.local") {
+## For Connor Ryan - remote desktop PC:
+if (Sys.info()[4] == "HOL-W10-CR") {
   # I like my main directory in Google Drive for easy sharing; to do this, 
   #   you first need to install "Drive for desktop", see here:
   #   https://support.google.com/a/users/answer/13022292?hl=en
   # It's also totally great to keep everything local and not linked to the cloud!
-  main_dir <- "/Users/emily/Library/CloudStorage/GoogleDrive-ebeckman@mortonarb.org/Shared drives/Global Tree Conservation Program/4. GTCP_Projects/Gap Analyses/User Guide ~ Conservation Gap Analysis/Example_spatial-analysis-workflow"
-  log_loc <- "/Users/emily/Documents/gap-analysis_passwords.txt"
-  gap_dir <- "/Users/emily/Documents/GitHub/GapAnalysis_EBB/R"
+  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/"
+  log_loc <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/"
+  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis"
   print(paste("Working from the lovely", Sys.info()[4]))
   
 ## For additional user or workstation (fill in each ________ with your file path)
