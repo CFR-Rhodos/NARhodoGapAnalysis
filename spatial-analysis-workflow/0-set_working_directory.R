@@ -32,7 +32,7 @@ if (Sys.info()[4] == "HOL-W10-CR") {
   #   https://support.google.com/a/users/answer/13022292?hl=en
   # It's also totally great to keep everything local and not linked to the cloud!
   main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis"
-  log_loc <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/login_info.txt"
+  log_loc <- "C:/Users/cryan/Videos/login_info.txt"
   gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/NA Rhodos Gap Analysis"
   print(paste("Working from the lovely", Sys.info()[4]))
   

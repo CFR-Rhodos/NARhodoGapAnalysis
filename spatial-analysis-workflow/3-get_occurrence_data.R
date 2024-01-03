@@ -157,6 +157,17 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
   # "Login" in top right corner, then click "Register"
 # either read in a text file with username, password, and email (one on each
 #   line) or manually fill in below (if you're not saving this script publicly):
+
+setwd("C:/Users/cryan/Videos/")
+
+path = getwd()
+
+my_txt_ex2 <- readLines(paste(path, "/login_info.txt", sep = ""), 
+                        n = 3) 
+my_txt_ex2 
+
+
+
 login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
   user  <- login[1] #username
   pwd   <- login[2] #password
