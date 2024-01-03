@@ -37,16 +37,16 @@ if (Sys.info()[4] == "HOL-W10-CR") {
   print(paste("Working from the lovely", Sys.info()[4]))
   
 ## For additional user or workstation (fill in each ________ with your file path)
-} else if (Sys.info()[4] == "________") {
+} else if (Sys.info()[4] == "THA-FIN-LP01") {
   # main working directory (folder where you want most files to be)
   #   if you're not sure how to to find the path of a folder, you can right click
   #   the folder and do the following based on your operating system --
   #   For Mac: click "Get Info" and copy the text in the "Where:" field
   #   For Windows: click "Properties" and copy the text in the "Location:" field
-  main_dir <- "________"
+  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis"
   # set location for log-in information text file (e.g., for GBIF)
   #   we use this in 3-get_occurrence_data.R
-  log_loc <- "________"
+  log_loc <- "C:/Users/cryan/Videos/login_info.txt"
   # [optional] location of cloned GapAnalysis repository; we use this in 
   #   7-run_GapAnalysis_package.R
   # Just leave this blank if you're not to this point in the workflow yet!
