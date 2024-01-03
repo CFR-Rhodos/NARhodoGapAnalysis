@@ -87,7 +87,7 @@ lapply(my.packages, require, character.only=TRUE)
 
 # use 0-set_working_directory.R script
   # change this path based on where the script is located on your computer:
-source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis")
+#source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis")
 setwd("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis")
 # create folder for output data
 if(!dir.exists(file.path(main_dir,occ_dir,standardized_occ,"input_datasets")))
@@ -151,12 +151,13 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 ### (can go down to option 2 -manual download- if this isn't working)
 ###
 
+
 # load GBIF account user information
   # if you don't have account yet, go to https://www.gbif.org then click
   # "Login" in top right corner, then click "Register"
 # either read in a text file with username, password, and email (one on each
 #   line) or manually fill in below (if you're not saving this script publicly):
-login <- read_lines(log_loc)
+login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
   user  <- login[1] #username
   pwd   <- login[2] #password
   email <- login[3] #email
