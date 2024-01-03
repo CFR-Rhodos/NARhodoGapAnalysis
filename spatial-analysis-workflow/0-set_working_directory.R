@@ -31,9 +31,9 @@ if (Sys.info()[4] == "HOL-W10-CR") {
   #   you first need to install "Drive for desktop", see here:
   #   https://support.google.com/a/users/answer/13022292?hl=en
   # It's also totally great to keep everything local and not linked to the cloud!
-  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/"
-  log_loc <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/"
-  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis - North American Rhododendrons/North-American-Rhododendrons---Gap-Analysis"
+  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis"
+  log_loc <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/login_info.txt"
+  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/NA Rhodos Gap Analysis"
   print(paste("Working from the lovely", Sys.info()[4]))
   
 ## For additional user or workstation (fill in each ________ with your file path)
@@ -111,3 +111,4 @@ if(!dir.exists(file.path(main_dir, occ_dir, standardized_occ)))
 analysis_dir <- "analysis_outputs"
 if(!dir.exists(file.path(main_dir, analysis_dir)))
   dir.create(file.path(main_dir, analysis_dir), recursive=T)
+
