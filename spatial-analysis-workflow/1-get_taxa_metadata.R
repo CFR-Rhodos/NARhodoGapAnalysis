@@ -38,7 +38,7 @@
 # Load libraries
 ################################################################################
 
-my.packages <- c('tidyverse','countrycode','textclean')
+my.packages <- c('tidyverse','tidyr', 'countrycode','textclean', 'dplyr')
   # versions I used (in the order listed above): 2.0.0, 1.5.0, 0.9.3
 #install.packages(my.packages) # turn on to install current versions
 lapply(my.packages, require, character.only=TRUE)
@@ -50,7 +50,7 @@ lapply(my.packages, require, character.only=TRUE)
 
 # use 0-set_working_directory.R script:
   # update to your path
-source("/Users/emily/Documents/GitHub/conservation-gap-analysis/spatial-analysis-workflow/0-set_working_directory.R")
+  source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/GitHub/NARhodoGapAnalysis/spatial-analysis-workflow/0-set_working_directory.R")
   
 ################################################################################
 # Read in target taxa and create folder for outputs
@@ -67,7 +67,7 @@ unique(separate(taxon_list,taxon_name,into="genus",extra="drop")[1])
 taxon_list <- taxon_list %>% 
     select(taxon_name,taxon_name_accepted,taxon_name_status,
            ## !! add any other manually-added columns here !!
-           ns_rank, ns_taxon_name, elevation_range
+           #ns_rank, ns_taxon_name, elevation_range
            ) 
 
 # create folder for files used in / created by this script
@@ -104,7 +104,7 @@ if(!dir.exists(file.path(main_dir, taxa_dir, output_dir)))
 
 # read in downloaded RL data that has threat categories
 category <- read.csv(file.path(main_dir,taxa_dir,output_dir,
-                               "redlist_species_data","simple_summary.csv"),
+                               "redlist_species_data","simple_summary.csv"), #changed simple_summary.csv to assessment.csv
                      colClasses="character",na.strings=c("","NA"),strip.white=T)
 # keep just the threat category data
 category <- category %>% 
@@ -215,11 +215,12 @@ for(file in seq_along(file_dfs)){
 head(gts_list)
 
 # split countries by delimiter
+
 gts_all <- gts_list %>%
   rename(taxon_name = taxon) %>%
   mutate(native_distribution =
            strsplit(as.character(native_distribution), "; ")) %>%
-  unnest(native_distribution) %>% mutate(native_distribution =
+                  unnest(native_distribution) %>% mutate(native_distribution =
                                            str_trim(native_distribution, side="both"))
 
 # can check countries list

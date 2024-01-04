@@ -158,20 +158,10 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 # either read in a text file with username, password, and email (one on each
 #   line) or manually fill in below (if you're not saving this script publicly):
 
-setwd("C:/Users/cryan/Videos/")
-
-path = getwd()
-
-my_txt_ex2 <- readLines(paste(path, "/login_info.txt", sep = ""), 
-                        n = 3) 
-my_txt_ex2 
-
-
-
-login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
-  user  <- login[1] #username
-  pwd   <- login[2] #password
-  email <- login[3] #email
+#login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
+  user  <- "connor_ryan" #login[1] #username
+  pwd   <-  #login[2] #password
+  email <- "cryan@holdenfg.org" #login[3] #email
   rm(login)
 # get GBIF taxon keys for all taxa in target list
 keys <- sapply(taxon_names,function(x) name_backbone(name=x)$speciesKey,
