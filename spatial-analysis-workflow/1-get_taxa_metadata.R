@@ -38,7 +38,7 @@
 # Load libraries
 ################################################################################
 
-my.packages <- c('tidyverse','tidyr', 'countrycode','textclean', 'dplyr')
+my.packages <- c('tidyverse', 'countrycode','textclean', 'dplyr')
   # versions I used (in the order listed above): 2.0.0, 1.5.0, 0.9.3
 #install.packages(my.packages) # turn on to install current versions
 lapply(my.packages, require, character.only=TRUE)
@@ -104,7 +104,7 @@ if(!dir.exists(file.path(main_dir, taxa_dir, output_dir)))
 
 # read in downloaded RL data that has threat categories
 category <- read.csv(file.path(main_dir,taxa_dir,output_dir,
-                               "redlist_species_data","simple_summary.csv"), #changed simple_summary.csv to assessment.csv
+                               "redlist_species_data","simple_summary.csv"), 
                      colClasses="character",na.strings=c("","NA"),strip.white=T)
 # keep just the threat category data
 category <- category %>% 
@@ -215,12 +215,14 @@ for(file in seq_along(file_dfs)){
 head(gts_list)
 
 # split countries by delimiter
-
+require(tidyverse)
+require(tidyr)
+require(dplyr)
 gts_all <- gts_list %>%
   rename(taxon_name = taxon) %>%
   mutate(native_distribution =
            strsplit(as.character(native_distribution), "; ")) %>%
-                  unnest(native_distribution) %>% mutate(native_distribution =
+                  unnest_legacy(native_distribution) %>% mutate(native_distribution =
                                            str_trim(native_distribution, side="both"))
 
 # can check countries list
