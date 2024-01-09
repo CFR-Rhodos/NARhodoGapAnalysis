@@ -302,21 +302,19 @@ unique(taxon_list[is.na(taxon_list$gts_native_dist) &
            is.na(taxon_list$rl_native_dist),]$taxon_name_accepted)
 ### you can add data for these manually if you'd like; for example:
 add_manually <- data.frame(
-  taxon_name_accepted = c("Asimina incana","Asimina longifolia",
-                          "Asimina manasota","Asimina pygmaea",
-                          "Asimina reticulata","Asimina x nashii",
-                          "Juglans major var. major",
-                          "Juglans microcarpa var. microcarpa"),
-  manual_native_dist = c("United States","United States",
-                         "United States","United States",
-                         "United States","United States",
-                         "Mexico; United States",
-                         "United States"),
-  manual_native_dist_iso2 = c("US","US",
-                              "US","US",
-                              "US","US",
-                              "MX; US",
-                              "US"))
+  taxon_name_accepted = c("Rhododendron alabamense","Rhododendron albiflorum", "Rhododendron atlanticum", "Rhododendron austrinum",
+                          "Rhododendron camtschaticum", "Rhododendron canadense", "Rhododendron carolinianum", "Rhododendron chapmanii",
+                          "Rhododendron colemanii", "Rhododendron columbianum", "Rhododendron cumberlandense", "Rhododendron flammeum",
+                          "Rhododendron groenlandicum", "Rhododendron menziesii", "Rhododendron minus", "Rhododendron smokianum", 
+                          "Rhododendron neoglandulosum", "Rhododendron occidentale", "Rhododendron periclymenoides", "Rhododendron pilosum",
+                          "Rhododendron prinophyllum", "Rhododendron tomentosum", "Rhododendron lapponicum"),
+  manual_native_dist = c("United States","Canada; United States", "United States", "United States",
+                         "Canada; United States", "Canada; United States","United States", "United States",
+                         "United States","Canada; United States", "United States", "United States", "Canada; United States", "Canada; United States", #R. menziesii
+                         "United States", "United States", "Canada; United States", "United States", "United States", "United States", "United States", #R. prinophyllum
+                         "Canada; United States", "Canada; United States"),
+  manual_native_dist_iso2 = c("US","CA; US","US","US","CA; US","CA; US","US","US","US","CA; US","US","US","CA; US","CA; US","US","US","CA; US","US",
+                              "US","US","CA; US","CA; US","US"))
 taxon_list <- left_join(taxon_list,add_manually)
 # if you don't add anything manually, you'll still need those columns, so add:
 #taxon_list$manual_native_dist <- NA
@@ -346,7 +344,7 @@ unique(taxon_list$all_native_dist_iso2)
 taxon_list <- taxon_list %>%
   select(taxon_name,taxon_name_accepted,taxon_name_status,
          ## !! add any other manually-added columns here !!
-         ns_rank, ns_taxon_name, elevation_range,
+         #ns_rank, ns_taxon_name, elevation_range,
          rl_category,all_native_dist,all_native_dist_iso2,
          rl_native_dist,rl_native_dist_iso2,
             rl_introduced_dist,rl_introduced_dist_iso2,rl_taxon_name,

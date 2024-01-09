@@ -77,7 +77,7 @@
 
 my.packages <- c('tidyverse','textclean','data.table','rgbif','ridigbio','BIEN')
   # versions I used (in the order listed above): 2.0.0, 0.9.3, 1.14.8, 3.7.7, 0.3.6, 1.2.6
-install.packages(my.packages) #Turn on to install current versions
+#install.packages(my.packages) #Turn on to install current versions
 lapply(my.packages, require, character.only=TRUE)
     rm(my.packages)
 
@@ -158,9 +158,9 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 # either read in a text file with username, password, and email (one on each
 #   line) or manually fill in below (if you're not saving this script publicly):
 
-#login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
+login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
   user  <- "connor_ryan" #login[1] #username
-  pwd   <-  #login[2] #password
+  pwd   <-  "" #password
   email <- "cryan@holdenfg.org" #login[3] #email
   rm(login)
 # get GBIF taxon keys for all taxa in target list
@@ -348,7 +348,7 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"iDigBio")))
   dir.create(file.path(main_dir,occ_dir,raw_occ,"iDigBio"), recursive=T)
 
 ###
-### OPTION 1: automatic download via API
+### OPTION 1: automatic download via API (CR- This is the method I used)
 ### (can go down to option 2 -manual download- if this isn't working;
 ###  also, all fields are not downloaded via the API... you can use
 ###  manual download method if you want *everything* that's available)
@@ -368,8 +368,9 @@ for(i in 1:length(taxon_names)){
 nrow(idigbio_raw)
 # remove rows that are lists
 idigbio_raw <- idigbio_raw %>% dplyr::select(everything(),-commonnames,-flags,
-  -mediarecords,-recordids)
+  -mediarecords,-recordids,-associatedsequences) #added associatedsequences because that was also a list
 # write raw file
+
 write.csv(idigbio_raw,file.path(main_dir,occ_dir,raw_occ,"iDigBio",
                                 "idigbio_R_download.csv"),row.names=FALSE)
 # standardize a few fields:
