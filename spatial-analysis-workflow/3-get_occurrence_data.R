@@ -732,8 +732,7 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"NorthAm_herbaria")))
 
 # read in data
 # this code pull the "occurrences.csv" from each genus folder, for compilation
-file_list <- list.files(file.path(main_dir,occ_dir,raw_occ,"NorthAm_herbaria"),
-  pattern = "SymbOutput", full.names = T)
+file_list <- list.files(file.path(main_dir,occ_dir,raw_occ,"NorthAm_herbaria"), full.names = T) #removed pattern = "SymbOutput"
 file_dfs <- lapply(file_list, function(i){
   read.csv(file.path(i,"occurrences.csv"), colClasses = "character",
    na.strings=c("", "NA"), strip.white=T, fileEncoding="UTF-8")})
@@ -1050,15 +1049,15 @@ state_abb <- c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID",
 #   move them to a folder called "FIA_TREE" and move it into your FIA_data folder
 
 # Set the working directory for the location of your FIA_data folder (change for you)
-fia_dir <- "/Users/emily/Library/CloudStorage/GoogleDrive-ebeckman@mortonarb.org/Shared drives/Global Tree Conservation Program/4. GTCP_Projects/Gap Analyses/FIA_data_Nov2022"
+fia_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/occurrence_data/raw_occurrence_data/FIA/FIA_data"
 
 # read in metadata tables and select relevant columns
   # plot data (has lat-long information)
-fia_plots <- read.csv(file.path(fia_dir,"CSV_FIADB_ENTIRE/ENTIRE_PLOT.csv"),
+fia_plots <- read.csv(file.path(fia_dir,"ENTIRE_PLOT.csv"), #took CSV_FIADB_ENTIRE/ of start of "Entire_Plot.csv")
                       header = T, na.strings=c("","NA"), colClasses="character")
 fia_plots <- fia_plots %>% select(INVYR,STATECD,UNITCD,COUNTYCD,PLOT,LAT,LON)
   # state and county codes and names
-county_codes <- read.csv(file.path(fia_dir,"CSV_FIADB_ENTIRE/ENTIRE_COUNTY.csv"),
+county_codes <- read.csv(file.path(fia_dir,"ENTIRE_COUNTY.csv"), #removed CSV_FIADB_ENTIRE/ from start of "ENTIRE_COUNTY.csv")
                          header = T, na.strings=c("","NA"), colClasses="character")
 county_codes <- county_codes %>% select(STATECD,COUNTYCD,COUNTYNM)
 
