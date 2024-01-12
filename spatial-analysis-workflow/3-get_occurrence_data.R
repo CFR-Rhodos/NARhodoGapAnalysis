@@ -158,7 +158,9 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 # either read in a text file with username, password, and email (one on each
 #   line) or manually fill in below (if you're not saving this script publicly):
 
-login <- readLines(log_loc) #changed from read_lines, not sure if this is correct 1/3/24
+#my_data <- read.delim(file.choose()) #an attempt to read in txt file because I can't get read_lines to work
+
+login <- read_lines(log_loc) #couldn' get this to work
   user  <- "connor_ryan" #login[1] #username
   pwd   <-  "" #password
   email <- "cryan@holdenfg.org" #login[3] #email
