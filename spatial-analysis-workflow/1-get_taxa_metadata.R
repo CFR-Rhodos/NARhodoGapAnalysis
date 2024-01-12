@@ -63,11 +63,25 @@ nrow(taxon_list)
 # see target genus/genera name(s) - you'll use these in a minute
 unique(separate(taxon_list,taxon_name,into="genus",extra="drop")[1])
 
+#read in file for Natureserve and 2008 Red List join
+
+taxon_list_join <- read.csv(file.path(main_dir,taxa_dir,"target_taxa_extraranks_join.csv"), 
+                       header=T, colClasses="character",na.strings=c("","NA"))
+
+#join NS and RL ranks to taxon list
+
+
+taxon_list <- merge(taxon_list,taxon_list_join,by.x="taxon_name", by.y = "taxon",all.y=T) #alternative way to join
+
+taxon_list <- right_join(taxon_list, taxon_list_join, by = c("taxon_name" = "taxon"))
+
+
+
 # in case you're running this again, just keep the original columns:
 taxon_list <- taxon_list %>% 
     select(taxon_name,taxon_name_accepted,taxon_name_status,
            ## !! add any other manually-added columns here !!
-           #ns_rank, ns_taxon_name, elevation_range
+           ns_rank, ns_taxon_name, rl2008_category, rl2008_taxon_name
            ) 
 
 # create folder for files used in / created by this script
@@ -316,6 +330,15 @@ add_manually <- data.frame(
   manual_native_dist_iso2 = c("US","CA; US","US","US","CA; US","CA; US","US","US","US","CA; US","US","US","CA; US","CA; US","US","US","CA; US","US",
                               "US","US","CA; US","CA; US","US"))
 taxon_list <- left_join(taxon_list,add_manually)
+
+add_manually2<-data.frame(
+    taxon_name_accepted = c("Rhododendron vaseyi"),
+    ns_rank = c("G2"),
+    rl_rank208 = c("Vulnerable")
+) #add natureserve and 2008 redlist rankings to target taxa list
+
+taxon_list <-left_join(taxon_list, add_manually2)
+
 # if you don't add anything manually, you'll still need those columns, so add:
 #taxon_list$manual_native_dist <- NA
 #taxon_list$manual_native_dist_iso2 <- NA
