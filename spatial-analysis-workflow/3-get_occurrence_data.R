@@ -162,7 +162,7 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 
 login <- read_lines(log_loc) #couldn' get this to work
   user  <- "connor_ryan" #login[1] #username
-  pwd   <-  "" #password
+  pwd   <-  "Euphon1um!" #password
   email <- "cryan@holdenfg.org" #login[3] #email
   rm(login)
 # get GBIF taxon keys for all taxa in target list
@@ -1021,7 +1021,7 @@ state_abb <- c("AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID",
   "NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN",
   "TX","UT","VT","WV","WA","VA","WI","WY"
     # comment these out if you don't want territories:
-  ,"AS","FM","GU","MP","PW","PR","VI"
+  #,"AS","FM","GU","MP","PW","PR","VI"
 )
 
 ###

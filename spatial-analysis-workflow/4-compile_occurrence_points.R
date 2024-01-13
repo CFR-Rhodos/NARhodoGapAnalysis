@@ -75,7 +75,7 @@ my.packages <- c('tidyverse','textclean','CoordinateCleaner','terra','countrycod
                  ,'elevatr',"sf"
 )
   # versions I used (in the order listed above): 2.0.0, 0.9.3, 2.0-20, 1.7-29, 1.5.0, 0.4.5, 1.0-13
-#install.packages (my.packages) #Turn on to install current versions
+install.packages (my.packages) #Turn on to install current versions
 lapply(my.packages, require, character.only=TRUE)
 rm(my.packages)
 
@@ -92,7 +92,7 @@ count <- dplyr::count
 
 # use 0-set_working_directory.R script:
   # update to your path
-source("/Users/emily/Documents/GitHub/conservation-gap-analysis/spatial-analysis-workflow/0-set_working_directory.R")
+source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/GitHub/NARhodoGapAnalysis/spatial-analysis-workflow/0-set_working_directory.R")
 
 # create folder for output data
 data_out <- "taxon_points_raw"
