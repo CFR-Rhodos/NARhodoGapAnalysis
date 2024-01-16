@@ -51,8 +51,8 @@
 ################################################################################
 
 # install rnaturalearthdata package if you don't have it yet
-install.packages('rnaturalearthdata') # my version is 0.1.0
-
+#install.packages('rnaturalearthdata') # my version is 0.1.0
+#install.packages('leaflet')
 # load packages
 my.packages <- c('tidyverse','textclean','rnaturalearth','leaflet')
   # versions I used (in the order listed above): 2.0.0, 0.9.3, 1.7-29, 0.3.3, 2.1.2
@@ -66,7 +66,7 @@ rm(my.packages)
 
 # use 0-set_working_directory.R script:
   # update to your path
-source("/Users/emily/Documents/GitHub/conservation-gap-analysis/spatial-analysis-workflow/0-set_working_directory.R")
+source("C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/GitHub/NARhodoGapAnalysis/spatial-analysis-workflow/0-set_working_directory.R")
 
 # create folder for output data
 data_out <- "visualize_taxon_points"
