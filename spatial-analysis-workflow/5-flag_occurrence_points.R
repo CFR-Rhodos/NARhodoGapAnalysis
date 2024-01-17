@@ -286,7 +286,7 @@ for (i in 1:length(target_taxa)){
   # create some subsets to count how many records are in each, for summary table...
 
   # count of completely unflagged points
-  total_unflagged <- taxon_now %>%
+    total_unflagged <- taxon_now %>%
     filter(.cen & .urb & .inst & .con & .outl & .nativectry & .yr1950 & 
              .yr1980 & .yrna & .unc & .elev & .rec)
   

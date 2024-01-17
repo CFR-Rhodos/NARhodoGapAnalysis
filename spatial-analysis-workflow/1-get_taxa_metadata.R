@@ -65,7 +65,7 @@ unique(separate(taxon_list,taxon_name,into="genus",extra="drop")[1])
 
 #read in file for Natureserve and 2008 Red List join
 
-taxon_list_join <- read.csv(file.path(main_dir,taxa_dir,"target_taxa_extraranks_join.csv"), 
+taxon_list_join <- read.csv(file.path(main_dir,taxa_dir,"target_taxa_extraranks_join_final.csv"), 
                        header=T, colClasses="character",na.strings=c("","NA"))
 
 #join NS and RL ranks to taxon list

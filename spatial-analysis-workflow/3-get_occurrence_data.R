@@ -162,7 +162,7 @@ if(!dir.exists(file.path(main_dir,occ_dir,raw_occ,"GBIF")))
 
 login <- read_lines(log_loc) #couldn' get this to work
   user  <- "connor_ryan" #login[1] #username
-  pwd   <-  "Euphon1um!" #password
+  pwd   <-  "" #password
   email <- "cryan@holdenfg.org" #login[3] #email
   rm(login)
 # get GBIF taxon keys for all taxa in target list

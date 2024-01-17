@@ -514,7 +514,7 @@ nrow(geo_pts)
 ## set header/column name order and keep only necessary columns
 keep_col <- c( 
   #universal ID and source database
-  "UID","database","all_source_databases",
+  "UID","database",#"all_source_databases", #all_source_databases not in my version of geo_pts df so commenting out
   #taxon
   "taxon_name_accepted","taxon_name_status",
   "taxon_name","scientificName","genus","specificEpithet",
@@ -535,11 +535,10 @@ keep_col <- c(
   "locationNotes","municipality","higherGeography","county","stateProvince",
   "country","countryCode","countryCode_standard","latlong_countryCode",
   #additional optional taxa metadata
-  "rl_category","ns_rank","elevation_range"
+  "rl_category","ns_rank", "rl2008_category" #"elevation_range" not included
   )
 geo_pts <- geo_pts[,keep_col]
 
-# take a look
 head(as.data.frame(geo_pts))
 nrow(geo_pts)
 table(geo_pts$database)
@@ -587,3 +586,4 @@ names(sp_split) <- gsub("\\.","",names(sp_split))
 lapply(seq_along(sp_split), function(i) write.csv(sp_split[[i]],
   file.path(main_dir,occ_dir,standardized_occ,data_out,
   paste0(names(sp_split)[[i]],".csv")),row.names = F))
+
