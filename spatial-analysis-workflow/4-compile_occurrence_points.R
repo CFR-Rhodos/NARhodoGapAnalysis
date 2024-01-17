@@ -449,63 +449,63 @@ geo_pts$elevationInMeters <- add_elev$elevation
 #    The fourth decimal place is worth up to 11 m: it can identify a parcel of land. It is comparable to the typical accuracy of an uncorrected GPS unit with no interference."
 #   If your target taxa are rare, you may want more digits; if your target 
 #   taxa are common/widespread, you probably want fewer digits (more points removed)
-geo_pts$lat_round <- round(geo_pts$decimalLatitude,digits=2)
-geo_pts$long_round <- round(geo_pts$decimalLongitude,digits=2)
+#geo_pts$lat_round <- round(geo_pts$decimalLatitude,digits=2)
+g#eo_pts$long_round <- round(geo_pts$decimalLongitude,digits=2)
 
 # create subset of all ex situ points, to add back in at the end, if desired
-ex_situ <- geo_pts[which(geo_pts$database=="Ex_situ"),]
-ex_situ <- ex_situ %>% 
-  select(-flag) %>%
-  mutate(coordinateUncertaintyInMeters=as.numeric(coordinateUncertaintyInMeters))
+#ex_situ <- geo_pts[which(geo_pts$database=="Ex_situ"),]
+#ex_situ <- ex_situ %>% 
+ # select(-flag) %>%
+#  mutate(coordinateUncertaintyInMeters=as.numeric(coordinateUncertaintyInMeters))
 
 ## sort before removing duplicates --
 # whatever you sort to the top will be kept when there is a duplicate further down;
 # you can comment out any of these sorting steps, or add others...
   ## sort by basis of record
-unique(geo_pts$basisOfRecord)
-geo_pts$basisOfRecord <- factor(geo_pts$basisOfRecord,
-  levels = c("PRESERVED_SPECIMEN","MATERIAL_SAMPLE","MATERIAL_CITATION",
-             "OBSERVATION","HUMAN_OBSERVATION","OCCURRENCE","PHYSICAL_SPECIMEN",
-             "MACHINE_OBSERVATION","FOSSIL_SPECIMEN","LIVING_SPECIMEN",
-             "UNKNOWN"))
-geo_pts <- geo_pts %>% arrange(basisOfRecord)
+#unique(geo_pts$basisOfRecord)
+#geo_pts$basisOfRecord <- factor(geo_pts$basisOfRecord,
+ # levels = c("PRESERVED_SPECIMEN","MATERIAL_SAMPLE","MATERIAL_CITATION",
+ #            "OBSERVATION","HUMAN_OBSERVATION","OCCURRENCE","PHYSICAL_SPECIMEN",
+  #           "MACHINE_OBSERVATION","FOSSIL_SPECIMEN","LIVING_SPECIMEN",
+   #          "UNKNOWN"))
+#geo_pts <- geo_pts %>% arrange(basisOfRecord)
   ## sort by establishment means
-unique(geo_pts$establishmentMeans)
-geo_pts$establishmentMeans <- factor(geo_pts$establishmentMeans,
-  levels = c("NATIVE","WILD","UNCERTAIN","INTRODUCED","MANAGED","CULTIVATED",
+#unique(geo_pts$establishmentMeans)
+#geo_pts$establishmentMeans <- factor(geo_pts$establishmentMeans,
+ # levels = c("NATIVE","WILD","UNCERTAIN","INTRODUCED","MANAGED","CULTIVATED",
              "DEAD"))
-geo_pts <- geo_pts %>% arrange(establishmentMeans)
+#geo_pts <- geo_pts %>% arrange(establishmentMeans)
   ## sort by coordinate uncertainty
-geo_pts$coordinateUncertaintyInMeters <-
-  as.numeric(geo_pts$coordinateUncertaintyInMeters)
-geo_pts <- geo_pts %>% arrange(geo_pts$coordinateUncertaintyInMeters)
+#geo_pts$coordinateUncertaintyInMeters <-
+ # as.numeric(geo_pts$coordinateUncertaintyInMeters)
+#geo_pts <- geo_pts %>% arrange(geo_pts$coordinateUncertaintyInMeters)
   ## sort by year
-geo_pts <- geo_pts %>% arrange(desc(year))
+#geo_pts <- geo_pts %>% arrange(desc(year))
   ## sort by source database
       # in the past I've sorted GBIF first since it's easier to cite, but you
       #   may want NorthAm_herbaria first since it has a nice link to the 
       #   herbariun specimen, which experts can use to review the record
-unique(geo_pts$database)
-geo_pts$database <- factor(geo_pts$database,
-  levels = c("NorthAm_herbaria","iDigBio","GBIF","FIA","IUCN_RedList",
-             "BIEN","Ex_situ"))
-geo_pts <- geo_pts %>% arrange(database)
+#unique(geo_pts$database)
+#geo_pts$database <- factor(geo_pts$database,
+ # levels = c("NorthAm_herbaria","iDigBio","GBIF","FIA","IUCN_RedList",
+  #           "BIEN","Ex_situ"))
+#geo_pts <- geo_pts %>% arrange(database)
 
 ## remove duplicates --
 # also creating an "all_source_databases" column to capture a list of all
 #   databases from which duplicates were removed; this step can take a while 
 #   if there are lots a rows
-geo_pts <- geo_pts %>%
-  group_by(taxon_name_accepted,lat_round,long_round) %>%
-  mutate(all_source_databases = paste(unique(database), collapse = ', ')) %>%
-  distinct(taxon_name_accepted,lat_round,long_round,.keep_all=T) %>%
-  ungroup() %>%
-  select(-flag)
-nrow(geo_pts)
+#geo_pts <- geo_pts %>%
+ # group_by(taxon_name_accepted,lat_round,long_round) %>%
+#  mutate(all_source_databases = paste(unique(database), collapse = ', ')) %>%
+ # distinct(taxon_name_accepted,lat_round,long_round,.keep_all=T) %>%
+#  ungroup() %>%
+#  select(-flag)
+#nrow(geo_pts)
 
 # add ex situ data back in
-geo_pts <- full_join(geo_pts,ex_situ)
-nrow(geo_pts)
+#geo_pts <- full_join(geo_pts,ex_situ)
+#nrow(geo_pts)
 
 ################################################################################
 # Select final set of columns

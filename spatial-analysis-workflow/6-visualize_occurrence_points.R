@@ -123,7 +123,7 @@ for(i in 1:length(taxa_cycle)){
   ## create a color palette for the map's points, based on source database
     # set database as factor and order as you'd like for viewing overlapping
     #   points; earlier databases will be shown on top of latter databases
-  database_order <- c("Ex_situ","NorthAm_herbaria","iDigBio","GBIF","FIA",
+  database_order <- c("Ex_situ","NorthAm_herbaria","iDigBio","GBIF","FIA", 
                       "IUCN_RedList","BIEN")
   taxon_now$database <- factor(taxon_now$database, levels = database_order)
   taxon_now <- taxon_now %>% arrange(desc(database))
@@ -196,7 +196,7 @@ for(i in 1:length(taxa_cycle)){
                      fillOpacity = 0.9, stroke = T) %>%
     ## Occurrence points flagged in each group (can toggle)....
     # .cen (points near state/country centroids)
-    addCircleMarkers(data = taxon_now %>% filter(!.cen & database!="Ex_situ"),
+    addCircleMarkers(data = taxon_now %>% filter(!.cen & database!="Ex_situ"),  
                      ~decimalLongitude, ~decimalLatitude,
                      popup = ~paste0(
                        "<b>Accepted species name:</b> ",taxon_name_accepted,"<br/>",

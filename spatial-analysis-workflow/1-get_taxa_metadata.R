@@ -375,3 +375,4 @@ head(taxon_list)
 # write file
 write.csv(taxon_list, file.path(main_dir, taxa_dir,
     "target_taxa_with_synonyms.csv"), row.names=F)
+
