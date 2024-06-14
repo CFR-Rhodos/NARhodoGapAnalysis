@@ -24,6 +24,19 @@
 #   blank "________" (line 38)
 Sys.info()[4]
 
+##### Copied from below to see if this will work for interns/Kara
+#if (Sys.info()[4] == "THA-FIN-LP01") {
+  # I like my main directory in Google Drive for easy sharing; to do this, 
+  #   you first need to install "Drive for desktop", see here:
+  #   https://support.google.com/a/users/answer/13022292?hl=en
+  # It's also totally great to keep everything local and not linked to the cloud!
+ # main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis"
+  #log_loc <- "C:/Users/cryan/Videos/login_info.txt"
+  #gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis/NA Rhodos Gap Analysis"
+  #print(paste("Working from the lovely", Sys.info()[4]))
+
+#}
+
 
 ## For Connor Ryan - remote desktop PC:
 if (Sys.info()[4] == "HOL-W10-CR") {
