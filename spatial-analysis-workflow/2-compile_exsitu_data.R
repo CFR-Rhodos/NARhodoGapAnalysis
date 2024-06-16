@@ -206,9 +206,9 @@ sort(colnames(all_data))
 #  sep=";",remove=T,na.rm=T)
   ## combine multiple taxon name columns (we'll do the rest of the column 
   ## standardizing later; this is to get genus for a summary table right away)
-#all_data <- tidyr::unite(all_data,"taxon_full_name",
-#  c("taxon_full_name","taxon_name_full","taxon.full_name"),
-#  sep=";",remove=T,na.rm=T)
+all_data <- tidyr::unite(all_data,"taxon_full_name",
+  c("taxon_full_name","taxon_name_full"), #removed "taxon.name_full" from list -CR
+  sep=";",remove=T,na.rm=T)
 
 # remove rows with no inst_short (shouldn't happen, but just in case)
 all_data <- all_data[which(!is.na(all_data$inst_short)),]
@@ -236,9 +236,9 @@ all_data[which(is.na(all_data$genus)),]$genus <-
 all_data$genus <- str_to_title(all_data$genus)
   ### IF NEEDED, FIX GENUS MISSPELLINGS OR ABBREVIATIONS...
 sort(unique(all_data$genus))
-#all_data$genus <- mgsub(all_data$genus,
-#  c("^Q$","^Q\\.$","Querces","Querucs","Querus","Qurercus","Cyclobalanopsis"),
-#     "Quercus", fixed=F)
+all_data$genus <- mgsub(all_data$genus,
+  c("^Q$","^Q\\.$","Rhododendron Ledum","Menziesia","Rhododendron Menziesia","Therorhodion"),
+      "Rhododendron", fixed=F)
 #all_data$taxon_full_name <- mgsub(all_data$taxon_full_name,
 #  c("Q\\.","Cyclobalanopsis"), 
 #     "Quercus", fixed=F)
@@ -303,14 +303,14 @@ sort(colnames(all_data))
   # in the data file:
 #unique(all_data$filename[all_data$locality.1 != ""])
   # or you can simply merge similar columns like so (update for you!!)...
-#all_data <- tidyr::unite(all_data,"cultivar",
-#                         c("cultivar","cultivsr"), sep="; ", remove=T, na.rm=T)
-#all_data <- tidyr::unite(all_data,"genus", 
-#                         c("genus","gensu"), sep="; ", remove=T, na.rm=T)
-#all_data <- tidyr::unite(all_data,"hybrid", c("hybrid","hyrbid"),
-#                         sep="; ", remove=T, na.rm=T)
-#all_data <- tidyr::unite(all_data,"notes", 
-#                         c("notes","Notes","notes2","inst_short2"), sep="; ", remove=T, na.rm=T)
+all_data <- tidyr::unite(all_data,"acc_num",
+                         c("acc_num","Accession.Number"), sep="; ", remove=T, na.rm=T)
+all_data <- tidyr::unite(all_data,"assoc_sp", 
+                         c("assoc_sp","assoc_species"), sep="; ", remove=T, na.rm=T)
+all_data <- tidyr::unite(all_data,"genus", c("genus","genus_temp"),
+                         sep="; ", remove=T, na.rm=T)
+all_data <- tidyr::unite(all_data,"municipality", 
+                         c("municipality","Municipality"), sep="; ", remove=T, na.rm=T)
 
 ### SELECT ONLY THE COLUMNS YOU WANT TO KEEP, BASED ON YOUR OWN DATA & NEEDS...
 keep_col <- c("acc_num","assoc_sp",#"author",
@@ -808,7 +808,7 @@ all_data7$prov_type <- str_to_lower(all_data7$prov_type)
 #   needs to be preserved but is in the wrong place
   # these are used in Genesys; try each and comment out if error is thrown...
 #all_data7[which(all_data7$prov_type=="130"|grepl("^130) ",all_data7$prov_type)),]$notes <- "Semi-natural/sown"
-all_data7[which(all_data7$prov_type=="410"|grepl("^410) ",all_data7$prov_type)),]$notes <- "Breeding/research material: Breeder's line"
+#all_data7[which(all_data7$prov_type=="410"|grepl("^410) ",all_data7$prov_type)),]$notes <- "Breeding/research material: Breeder's line"
 #all_data7[which(all_data7$prov_type=="300"|grepl("^300) ",all_data7$prov_type)),]$notes <- "Traditional cultivar/landrace"
 all_data7[which(all_data7$prov_type=="400"|grepl("^400) ",all_data7$prov_type)),]$notes <- "Breeding/research material"
 all_data7[which(all_data7$prov_type=="500"|grepl("^500) ",all_data7$prov_type)),]$notes <- "Advanced or improved cultivar (conventional breeding methods)"
@@ -818,8 +818,8 @@ sort(unique(all_data7$prov_type))
 # standardize the column by searching for keywords & replacing with standard value
   # first remove any confusing words/phrases
 all_data7$prov_type <- mgsub(all_data7$prov_type,
-  c("not of known wild origin","could be cultivated","not of wild source",
-    "wildsourceunsure","cultivated plant of known "), "")
+  c("100","100) wild","110",
+    "400","400) breeding/research material", "500", "500) advanced/improved cultivar", "999", "unknown"), "")
   # ex wild (Z)
 all_data7$prov_type <- ifelse(grepl(paste(
   c("indirect","ex wild","^z$","cultivated from wild","c ex w","cw",
@@ -949,7 +949,7 @@ all_data8$lat_dd <- str_squish(all_data8$lat_dd)
 all_data8$lat_dd[all_data8$lat_dd==""] <- NA
 sort(unique(all_data8$lat_dd))
   # can check source of specific values that aren't formatted correctly
-#all_data8[which(all_data8$lat_dd == "422538"),]
+all_data8[which(all_data8$lat_dd == "422538"),]
   ## longitude
   # replace unnecessary characters so we just have numbers
 all_data8$long_dd <- mgsub(all_data8$long_dd,
