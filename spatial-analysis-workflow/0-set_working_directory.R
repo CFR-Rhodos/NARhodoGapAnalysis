@@ -44,9 +44,9 @@ if (Sys.info()[4] == "HOL-W10-CR") {
   #   you first need to install "Drive for desktop", see here:
   #   https://support.google.com/a/users/answer/13022292?hl=en
   # It's also totally great to keep everything local and not linked to the cloud!
-  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis"
+  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis"
   log_loc <- "C:/Users/cryan/Videos/login_info.txt"
-  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis/NA Rhodos Gap Analysis"
+  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis/NA Rhodos Gap Analysis"
   print(paste("Working from the lovely", Sys.info()[4]))
   
 ## For additional user or workstation (fill in each ________ with your file path)
@@ -56,14 +56,9 @@ if (Sys.info()[4] == "HOL-W10-CR") {
   #   the folder and do the following based on your operating system --
   #   For Mac: click "Get Info" and copy the text in the "Where:" field
   #   For Windows: click "Properties" and copy the text in the "Location:" field
-  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents/Gap Analysis"
-  # set location for log-in information text file (e.g., for GBIF)
-  #   we use this in 3-get_occurrence_data.R
+  main_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis"
   log_loc <- "C:/Users/cryan/Videos/login_info.txt"
-  # [optional] location of cloned GapAnalysis repository; we use this in 
-  #   7-run_GapAnalysis_package.R
-  # Just leave this blank if you're not to this point in the workflow yet!
-  gap_dir <- "________"
+  gap_dir <- "C:/Users/cryan/OneDrive - The Holden Arboretum dba Holden Forests and Gardens/Documents - WG Leach/FY24/Gap Analysis/NA Rhodos Gap Analysis"
   # print computer name, to let you know you're in the right spot
   print(paste("Working from the lovely", Sys.info()[4]))
   

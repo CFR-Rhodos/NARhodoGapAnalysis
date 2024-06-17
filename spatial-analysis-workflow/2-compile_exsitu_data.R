@@ -103,7 +103,7 @@
 ################################################################################
 
 # install measurements package if you don't have it yet
-install.packages('measurements')
+#install.packages('measurements')
 
 # load packages
 my.packages <- c('tidyverse','textclean','CoordinateCleaner','terra')
