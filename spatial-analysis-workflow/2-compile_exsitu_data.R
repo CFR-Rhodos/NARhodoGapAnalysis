@@ -529,7 +529,7 @@ all_data2$taxon_full_name_orig <- all_data2$taxon_full_name
 
 # remove rows not in target genus/genera
 
-#CR note - lose all the ex situ data at this step...
+
 
 target_genera <- unique(as.character(map(strsplit(taxon_list$taxon_name, split=" "), 1)))
 all_data2 <- all_data2 %>% filter(genus %in% target_genera)
@@ -1254,7 +1254,7 @@ all_data9$orig_acc_num <- all_data9$acc_num
 #   change this as needed based on the columns you want;
 keep_col <- c(
   # key data
-  "UID","inst_short","taxon_name_accepted","acc_num","prov_type",
+  "UID","inst_short","acc_num","prov_type", "taxon_name_accepted",
   # locality
   "lat_dd","long_dd","latlong_flag","latlong_det","latlong_uncertainty",
   "geolocated_by","latlong_notes",
@@ -1275,7 +1275,7 @@ keep_col <- c(
   # original versions of columns, for reference
   "orig_prov_type","orig_acc_num","orig_num_indiv","orig_lat","orig_long",
   # OPTIONAL additional taxon metadata
-  "rl_category","ns_rank","elevation_range"#,"taxon_region"
+  "rl_category","ns_rank",#"elevation_range"#,"taxon_region"
 )
 all_data9 <- all_data9[,keep_col]
 

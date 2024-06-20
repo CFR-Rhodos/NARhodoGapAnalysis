@@ -30,7 +30,7 @@
 # Load libraries
 ################################################################################
 
-# install rnaturalearthhires package from github (not in CRAN for this R version)
+#install rnaturalearthhires package from github (not in CRAN for this R version)
 install.packages("devtools") # first install the devtools package if you don't have
 install.packages("Rtools")
 devtools::install_github("ropensci/rnaturalearthhires")
