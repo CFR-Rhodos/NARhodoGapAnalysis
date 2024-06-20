@@ -192,8 +192,9 @@ read.exsitu.csv <- function(path,submission_year){
 # "inst_short" institution nickname] 2) a submission year, 3) an accession
 # number if one isn't given
 ### CHANGE BASED ON FOLDER(S) AND YEAR(S) YOU HAVE...
-all_data <- read.exsitu.csv(file.path(main_dir, exsitu_dir, raw_exsitu,
-                                      "exsitu_standard_column_names","Plants"), "2023") #replaced "2022" with "2023"
+
+all_data <- read.exsitu.csv(file.path(main_dir, "exsitu_data", "raw_exsitu_data", 
+                                      "exsitu_standard_column_names","2023"),"2023") #replaced "2022" with "2023"
 # stack all data if you had multiple years:
 #to_stack <- list(raw_2022,raw_2021,raw_2020,raw_2019,raw_2018,raw_2017)
 #all_data <- Reduce(bind_rows, to_stack)
@@ -237,7 +238,7 @@ all_data$genus <- str_to_title(all_data$genus)
   ### IF NEEDED, FIX GENUS MISSPELLINGS OR ABBREVIATIONS...
 sort(unique(all_data$genus))
 all_data$genus <- mgsub(all_data$genus,
-  c("^Q$","^Q\\.$","Rhododendron Ledum","Menziesia","Rhododendron Menziesia","Therorhodion"),
+  c("^Q$","^Q\\.$","Rhododendron Ledum","Menziesia","Rhododendron Menziesia","Therorhodion","","Ledum"),
       "Rhododendron", fixed=F)
 #all_data$taxon_full_name <- mgsub(all_data$taxon_full_name,
 #  c("Q\\.","Cyclobalanopsis"), 
@@ -303,12 +304,16 @@ sort(colnames(all_data))
   # in the data file:
 #unique(all_data$filename[all_data$locality.1 != ""])
   # or you can simply merge similar columns like so (update for you!!)...
+
+  #CR note - not sure if I added the line with genus, genus_temp but it was causing problems
+  #later so I commented it out. genus column was Rhododendron; Rhododendron which got filtered
+  #out later, removing all the ex-situ data
 all_data <- tidyr::unite(all_data,"acc_num",
                          c("acc_num","Accession.Number"), sep="; ", remove=T, na.rm=T)
 all_data <- tidyr::unite(all_data,"assoc_sp", 
                          c("assoc_sp","assoc_species"), sep="; ", remove=T, na.rm=T)
-all_data <- tidyr::unite(all_data,"genus", c("genus","genus_temp"),
-                         sep="; ", remove=T, na.rm=T)
+#all_data <- tidyr::unite(all_data,"genus", c("genus","genus_temp"),
+ #                        sep="; ", remove=T, na.rm=T)
 all_data <- tidyr::unite(all_data,"municipality", 
                          c("municipality","Municipality"), sep="; ", remove=T, na.rm=T)
 
@@ -324,6 +329,8 @@ keep_col <- c("acc_num","assoc_sp",#"author",
               "taxon_full_name","taxon_verif"#,"trade_name"
               )
 all_data <- all_data[,keep_col]
+
+
 
 # remove leading, trailing, and middle (e.g., double space) white space
 all_data <- as.data.frame(lapply(all_data, function(x) str_squish(x)), stringsAsFactors=F)
@@ -428,6 +435,7 @@ genesys_sel$data_source <- "Genesys"
 all_data <- bind_rows(all_data,genesys_sel)
 nrow(all_data)
 
+
 ### IF YOU HAVE DATA FROM THE USDA ARS NATIONAL PLANT GERMPLASM SYSTEM (GRIN)...
 # I think all the US institutions are covered by GRIN, so we'll remove 
 # these; pulled this list from CWR Gap Analysis 2020 (Khoury et al.)... may 
@@ -486,8 +494,8 @@ wiews_sel <- wiews %>%
 ### IF YOU HAVE DATA FROM THE USDA ARS NATIONAL PLANT GERMPLASM SYSTEM (GRIN)...
 # I think all the US institutions are covered by GRIN, so we'll remove; I'm 
 # not positive this is right... would need to do some digging
-wiews_sel <- wiews_sel %>% filter(!grepl("USA",inst_short))
-nrow(wiews_sel)
+#wiews_sel <- wiews_sel %>% filter(!grepl("USA",inst_short))
+#nrow(wiews_sel)
 
 # add data source column
 wiews_sel$data_source <- "FAO-WIEWS"
@@ -497,6 +505,8 @@ wiews_sel$data_source <- "FAO-WIEWS"
   wiews_sel <- wiews_sel %>% mutate(across(everything(), as.character))
 all_data <- bind_rows(all_data,wiews_sel)
 nrow(all_data)
+
+#CR note - wiews, ex situ, and genesys data all here
 
 ################################################################################
 # 4. Save raw output of compiled data for target genera
@@ -518,6 +528,9 @@ str(taxon_list)
 all_data2$taxon_full_name_orig <- all_data2$taxon_full_name
 
 # remove rows not in target genus/genera
+
+#CR note - lose all the ex situ data at this step...
+
 target_genera <- unique(as.character(map(strsplit(taxon_list$taxon_name, split=" "), 1)))
 all_data2 <- all_data2 %>% filter(genus %in% target_genera)
 nrow(all_data); nrow(all_data2)
@@ -529,15 +542,15 @@ sort(unique(all_data2$hybrid))
 #   in the hybrid column that does not mark the record as a hybrid (e.g. 
 #   "species") and remove that text; the following will need edits !!!...
 # if needed, standardize so only one hybrid symbol is used ( x )
-all_data2$hybrid <- mgsub(all_data2$hybrid,
-  c(" A ","^A ","^A$"," X ","^X"," _ ","^_ ","^_$","^1$","\\*","^H$","^hyb$","Hybrid"),
-  " x ", fixed=F)
+#all_data2$hybrid <- mgsub(all_data2$hybrid,
+#  c(" A ","^A ","^A$"," X ","^X"," _ ","^_ ","^_$","^1$","\\*","^H$","^hyb$","Hybrid"),
+#  " x ", fixed=F)
 # add "x" at beginning then remove duplicates
-all_data2$hybrid[!is.na(all_data2$hybrid)] <- paste0("x ",all_data2$hybrid[!is.na(all_data2$hybrid)])
-all_data2$hybrid <- str_squish(all_data2$hybrid)
-all_data2$hybrid <- str_to_lower(all_data2$hybrid)
-all_data2$hybrid <- mgsub(all_data2$hybrid,c("x x","x h$"),"x",fixed=F)
-sort(unique(all_data2$hybrid))
+#all_data2$hybrid[!is.na(all_data2$hybrid)] <- paste0("x ",all_data2$hybrid[!is.na(all_data2$hybrid)])
+#all_data2$hybrid <- str_squish(all_data2$hybrid)
+#all_data2$hybrid <- str_to_lower(all_data2$hybrid)
+#all_data2$hybrid <- mgsub(all_data2$hybrid,c("x x","x h$"),"x",fixed=F)
+#sort(unique(all_data2$hybrid))
 
 # create concatenated taxon_full_name column
 all_data2 <- tidyr::unite(all_data2, "taxon_full_name_concat",
@@ -818,7 +831,7 @@ sort(unique(all_data7$prov_type))
 # standardize the column by searching for keywords & replacing with standard value
   # first remove any confusing words/phrases
 all_data7$prov_type <- mgsub(all_data7$prov_type,
-  c("100","100) wild","110",
+  c("100","110", "N","",
     "400","400) breeding/research material", "500", "500) advanced/improved cultivar", "999", "unknown"), "")
   # ex wild (Z)
 all_data7$prov_type <- ifelse(grepl(paste(
@@ -829,7 +842,7 @@ all_data7$prov_type <- ifelse(grepl(paste(
   # wild (W)
 all_data7$prov_type <- ifelse(grepl(paste(
   c("wild","wld","collect","^w$","^w\\*","^\\(w\\)$","wd","w\\?","genetic",
-    "100","110","130"),
+    "100","110","130", "100) wild"),
   collapse = "|"), all_data7$prov_type),"W",all_data7$prov_type)
   # native to site (N)
 all_data7$prov_type <- ifelse(grepl(paste(
@@ -843,7 +856,7 @@ all_data7$prov_type <- ifelse(grepl(paste(
   # cultivated (H)
 all_data7$prov_type <- ifelse(grepl(paste(
   c("cultiva","garden","^c$","^g$","^g ","^h$","horticult","landrace","clone",
-    "300","500","^g\\."),
+    "300","500","^g\\.", "cultivated"),
   collapse = "|"), all_data7$prov_type),"H",all_data7$prov_type)
 ## check one last time to be sure you got everything
 sort(unique(all_data7$prov_type))
@@ -873,12 +886,12 @@ all_data7$num_indiv <- str_to_lower(all_data7$num_indiv)
 sort(unique(all_data7$num_indiv))
 
 ## IF NEEDED: replace unwanted characters
-all_data7$num_indiv <- mgsub(all_data7$num_indiv,
-    c("\\?",","," plants"," pieces","ca\\.","alive","\\+",
-      " in terra",";[0-9][0-9]",";1",";2",";3",";4",";5",";7",";0",";"),
-      c(""), fixed=F)
-all_data7$num_indiv <- str_squish(all_data7$num_indiv)
-sort(unique(all_data7$num_indiv))
+#all_data7$num_indiv <- mgsub(all_data7$num_indiv,
+#    c("\\?",","," plants"," pieces","ca\\.","alive","\\+",
+#      " in terra",";[0-9][0-9]",";1",";2",";3",";4",";5",";7",";0",";"),
+#      c(""), fixed=F)
+#all_data7$num_indiv <- str_squish(all_data7$num_indiv)
+#sort(unique(all_data7$num_indiv))
 
 # save version where we identify which didn't have # of individuals provided
 all_data7$num_indiv[which(!grepl("^[0-9]+$",all_data7$num_indiv))] <- "Unknown"
@@ -889,6 +902,15 @@ all_data7$orig_num_indiv <- all_data7$num_indiv
 # "NAs introduced by coercion" warning ok
 all_data7$num_indiv <- as.numeric(all_data7$num_indiv)
 all_data7$num_indiv[which(is.na(all_data7$num_indiv))] <- 1
+
+#CR addition - replacing mass with 1 for simplicity's sake
+all_data7$num_indiv <- mgsub(all_data7$num_indiv,
+    c("mass","mass(a)","mass(p)"),
+      c("1"), fixed=F)
+all_data7$num_indiv <- str_squish(all_data7$num_indiv)
+sort(unique(all_data7$num_indiv))
+
+
 
 # check results
 sort(unique(all_data7$num_indiv))
@@ -1027,6 +1049,8 @@ coord_test <- cc_val(all_data8,lon = "long_dd",lat = "lat_dd",
 #                              taxon_region == "Central America" |
 #                              taxon_region == "South America"),
 #                           as.numeric(paste0("-",as.character(long_dd))), long_dd))
+
+
 # OR, IF ALL YOUR TARGET TAXA ARE NATIVE TO THE AMERICAS, make all longitudes negative:
 #   'NAs introduced by coercion' warning message is ok
 all_data8 <- all_data8 %>% 
@@ -1085,8 +1109,10 @@ nrow(all_data9)
 # mark lat-long for records with same inst lat-long and wild lat-long
 all_data9$lat_round <- round(all_data9$lat_dd,digits=1)
 all_data9$long_round <- round(all_data9$long_dd,digits=1)
-all_data9$inst_lat_round <- round(all_data9$inst_lat,digits=1)
-all_data9$inst_long_round <- round(all_data9$inst_long,digits=1)
+all_data9$inst_lat_round <- round(as.numeric(all_data9$inst_lat),digits=1) #added as.numeric to get around
+                                                                            #non-numeric argument to mathematical function error
+all_data9$inst_long_round <- round(as.numeric(all_data9$inst_long),digits=1) #added as.numeric to get around
+                                                                              #non-numeric argument to mathematical function error
 garden_latlong <- all_data9 %>% filter(lat_round == inst_lat_round &
   long_round == inst_long_round & prov_type != "N")
 unique(garden_latlong$inst_short)
@@ -1115,31 +1141,33 @@ table(all_data9$prov_type)
 ## D) Collection year
 #######################
 
+##CR-note - going to skip this section
+
 # this is not usually vital and takes some effort depending on your dataset;
 # if you decide it's not necessary to standardize collection year, just comment 
 # out this section; if you do want to standardize, you'll need to play with 
 # updating the following section for your data
 
-sort(unique(all_data9$coll_year))
+#sort(unique(all_data9$coll_year))
 # separate additional years
-all_data9 <- all_data9 %>% 
-  separate("coll_year","coll_year",sep="; |;",remove=F)
+#all_data9 <- all_data9 %>% 
+#  separate("coll_year","coll_year",sep="; |;",remove=F)
 
 ## IF NEEDED: replace non-year words/characters
-all_data9$coll_year <- mgsub(all_data9$coll_year,
-  c("----","about ","ca.","Unknown","original","Estate","estate","<",
-    "NEAR ","PRE "),"")
-all_data9$coll_year[all_data9$coll_year == ""] <- NA
+#all_data9$coll_year <- mgsub(all_data9$coll_year,
+#  c("----","about ","ca.","Unknown","original","Estate","estate","<",
+#    "NEAR ","PRE "),"")
+#all_data9$coll_year[all_data9$coll_year == ""] <- NA
   # change all month/day separators to a slash
-all_data9$coll_year <- gsub("-|\\.","/",all_data9$coll_year)
-sort(unique(all_data9$coll_year))
+#all_data9$coll_year <- gsub("-|\\.","/",all_data9$coll_year)
+#sort(unique(all_data9$coll_year))
 
 # remove extra elements so its just year
 ## YOU NEED TO BE CAREFUL HERE AND LOOK AT YOUR SPECIFIC DATA
   # remove 2-digit month and day when year is first
-all_data9$coll_year <- gsub("/[0-9][0-9]/[0-9][0-9]$","",all_data9$coll_year)
+#all_data9$coll_year <- gsub("/[0-9][0-9]/[0-9][0-9]$","",all_data9$coll_year)
   # remove 2-digit month and day when year is last
-all_data9$coll_year <- gsub("^[0-9][0-9]/[0-9][0-9]/","",all_data9$coll_year)
+#all_data9$coll_year <- gsub("^[0-9][0-9]/[0-9][0-9]/","",all_data9$coll_year)
   # etc.....
 #all_data9$coll_year <- gsub("^[0-9]/[0-9][0-9]/","",all_data9$coll_year)
 #all_data9$coll_year <- gsub("^[0-9][0-9]/[0-9]/","",all_data9$coll_year)
@@ -1152,10 +1180,10 @@ all_data9$coll_year <- gsub("^[0-9][0-9]/[0-9][0-9]/","",all_data9$coll_year)
 #all_data9$coll_year <- gsub("^[0-9] ","",all_data9$coll_year)
   # keep only the first four characters
   #   1 = first character to keep; 4 = last chracter to keep
-all_data9$coll_year <- substr(all_data9$coll_year, 1, 4)
+#all_data9$coll_year <- substr(all_data9$coll_year, 1, 4)
 
 # make column numeric
-all_data9$coll_year <- as.numeric(all_data9$coll_year)
+#all_data9$coll_year <- as.numeric(all_data9$coll_year)
 
 ## IF NEEDED: add first two numbers in year [this cannot be fully accurate]
 #  # assume 2000s if values is less than 23
@@ -1169,7 +1197,7 @@ all_data9$coll_year <- as.numeric(all_data9$coll_year)
 #all_data9$coll_year[which(all_data9$coll_year < 100)] <-
 #  paste0("19",as.character(all_data9$coll_year[which(all_data9$coll_year < 100)]))
 #all_data9$coll_year <- as.numeric(all_data9$coll_year)
-sort(unique(all_data9$coll_year))
+#sort(unique(all_data9$coll_year))
 
 #####################
 ## E) Lineage number
@@ -1463,21 +1491,21 @@ head(need_geo)
 #   e.g., threatened and/or have less than 15 wild accessions
 #   (you can choose whatever threshold(s) you want)
   # thresholds
-rl_threat <- c("Critically Endangered","Endangered","Vulnerable")
-ns_threat <- c("G1 (Critically Imperiled)","G2 (Imperiled)","G3 (Vulerable)")
-few_wild <- geo_needs[geo_needs$num_wild<15,]$taxon_name_accepted
+#rl_threat <- c("Critically Endangered","Endangered","Vulnerable")
+#ns_threat <- c("G1 (Critically Imperiled)","G2 (Imperiled)","G3 (Vulerable)")
+#few_wild <- geo_needs[geo_needs$num_wild<15,]$taxon_name_accepted
   # get list of priority taxa
-priority_taxa <- taxon_list %>%
-  filter(rl_category %in% rl_threat |
-         ns_rank %in% ns_threat |
-         taxon_name %in% few_wild) %>%
-  distinct(taxon_name_accepted)
-priority_taxa <- priority_taxa[,1]
-priority_taxa <- paste(priority_taxa, collapse="|")
+#priority_taxa <- taxon_list %>%
+#  filter(rl_category %in% rl_threat |
+#         ns_rank %in% ns_threat |
+#         taxon_name %in% few_wild) %>%
+#  distinct(taxon_name_accepted)
+#priority_taxa <- priority_taxa[,1]
+#priority_taxa <- paste(priority_taxa, collapse="|")
   # flag priority taxa
-need_geo$priority <- NA
-need_geo[which(grepl(priority_taxa,need_geo$taxon_name_accepted)),]$priority <- "Priority"
-table(need_geo$priority)
+#need_geo$priority <- NA
+#need_geo[which(grepl(priority_taxa,need_geo$taxon_name_accepted)),]$priority <- "Priority"
+#table(need_geo$priority)
 
 # replace NA with "" for easier viewing when geolocating
 need_geo$lat_dd <- as.character(need_geo$lat_dd)
